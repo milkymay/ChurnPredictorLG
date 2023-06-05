@@ -7,7 +7,7 @@ from utils.Data import Data
 import pandas as pd
 from utils.PrettyLogger import PrettyLogger
 
-conf_path = "C:/Users/melis/Desktop/predefence2/utils/env.json"
+conf_path = ""
 
 data_json = json.load(open(conf_path, 'r'))
 
@@ -35,10 +35,8 @@ def store_best(manager, results):
 results = {}
 
 managers = [
-    create_manager(['lightgbm', 'catboost'], []),
-    create_manager(['forest'], ['dostoevsky'])
-    # create_manager(['lightgbm', 'catboost', 'forest', 'nn'], []),
-    # create_manager(['lightgbm', 'catboost', 'forest', 'nn'], ['dostoevsky']),
+    create_manager(['lightgbm', 'catboost', 'forest', 'nn'], []),
+    create_manager(['lightgbm', 'catboost', 'forest', 'nn'], ['dostoevsky']),
     # create_manager(['lightgbm', 'catboost', 'forest', 'nn'], ['chatGPT']),
     # create_manager(['lightgbm', 'catboost', 'forest', 'nn'], ['chatGPT', 'dostoevsky'])
 ]
@@ -52,7 +50,7 @@ best_clf = max(results, key=lambda x: results[x][1])
 text_analysis = []
 if len(best_clf) != 0:
     text_analysis = np.array(best_clf)
-data_actual = Data(actual_data_path, text_analysis=np.array(best_clf)).X_true
+data_actual = Data(actual_data_path, text_analysis=np.array(text_analysis)).X_true
 best_clf = results[best_clf][0]
 
 data_full = pd.read_csv(actual_data_path)
